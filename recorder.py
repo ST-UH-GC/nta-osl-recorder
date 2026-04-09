@@ -15,14 +15,14 @@ _TZ        = ZoneInfo("Europe/Oslo")
 def _record_path() -> str | None:
     local = datetime.fromtimestamp(time.time(), tz=_TZ)
     wd, hr = local.weekday(), local.hour  # 0=Mon … 6=Sun
-    if wd == 2:                           # Wednesday all day
-        return os.path.join(RECORD_DIR, "wednesday.jsonl")
+    if wd == 1:                           # Tuesday all day
+        return os.path.join(RECORD_DIR, local.strftime("%Y%m%d.jsonl"))
     return None                           # outside window — idle
 
 
 def _record_loop() -> None:
     os.makedirs(RECORD_DIR, exist_ok=True)
-    print(f"[Recorder] Starting (every {INTERVAL}s, recording Wednesdays)")
+    print(f"[Recorder] Starting (every {INTERVAL}s, recording Tuesdays → YYYYMMDD.jsonl)")
     while True:
         time.sleep(INTERVAL)
         try:
